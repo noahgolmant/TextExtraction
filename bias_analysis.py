@@ -2,11 +2,6 @@ __author__ = 'noahg_000'
 
 from text_extraction import Extraction, Article
 
-url = raw_input("Enter a URL: ")
-
-extraction = Extraction(url)
-extraction.processText()
-
 # create a hash table of words and their associated values...
 import csv
 tsv = open("AFINN-111.txt", "r")
@@ -37,12 +32,25 @@ def sentence_sentiment(sentence):
 
     return (totalSentiment/count)
 
+if __name__ == '__main__':
 
-totalSent = 0
-for sentence in extraction.sentences:
-    totalSent += sentence_sentiment(sentence)
+    url = raw_input("Enter a URL: ")
 
-print "average article sent: " + repr(float(totalSent / len(extraction.sentences)))
+    while url != "exit":
+        extraction = Extraction(url)
+        extraction.processText()
+
+        totalSent = 0
+        for sentence in extraction.sentences:
+            totalSent += sentence_sentiment(sentence)
+
+        print "average article sent: " + repr(float(totalSent / len(extraction.sentences)))
+
+        article = Article(url, extraction.author, extraction.title, extraction.sentences, float(totalSent / len(extraction.sentences)))
+        Article.store(article)
+
+        url = raw_input("Enter a URL: ")
+
 # now we have all the nice base data to perform sentiment analysis on
 #article = Article(url, "test", "test", ["test", "anotherTest"], 1.20) #sample
 

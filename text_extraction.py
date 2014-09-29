@@ -4,6 +4,7 @@ __author__ = 'noahg_000'
 
 from alchemyapi import AlchemyAPI
 import json
+from warnings import warn
 
 class AlchemyException(Exception):
     def __init__(self, statusInfo):
@@ -78,7 +79,7 @@ class Article():
         if os.path.isfile(article.title):
             return
 
-        outFile = open(article.title, 'w')
+        outFile = open(article.title[:10], 'w')
         outFile.write(json.dumps(article.data, indent=4))
         outFile.close()
 
@@ -127,7 +128,7 @@ class Extraction:
 
         response = self.alchemyAPI.text('url', url)
         if response['status'] != 'OK':
-            raise AlchemyException(response['statusInfo'])
+            warn(response['statusInfo'])
 
         return response['text'].encode('utf-8')
 
@@ -140,7 +141,7 @@ class Extraction:
 
         response = self.alchemyAPI.author('url', url)
         if response['status'] != 'OK':
-            raise AlchemyException(response['statusInfo'])
+            warn(response['statusInfo'])
 
         return response['author'].encode('utf-8')
 
@@ -153,7 +154,7 @@ class Extraction:
 
         response = self.alchemyAPI.title('url', url)
         if response['status'] != 'OK':
-            raise AlchemyException(response['statusInfo'])
+            warn(response['statusInfo'])
         return response['title'].encode('utf-8')
 
 
@@ -188,7 +189,7 @@ class Extraction:
         is still somewhat indicative of possible bias
         """
         for sentence in list(sentenceList):
-            if sentence[:3] == "â€œ" or sentence[:1] == '"': # â€œ = unicode representation of slanted double quote
+            if sentence[:3] == "“" or sentence[:1] == '"': # “ = unicode representation of slanted double quote
                 sentenceList.remove(sentence)
 
         return sentenceList
