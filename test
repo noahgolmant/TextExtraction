@@ -1,0 +1,10 @@
+{
+    "url": "http://www.nytimes.com/2014/09/20/world/europe/scotland-independence-vote-no.html?hp&action=click&pgtype=Homepage&version=LedeSumLargeMedia&module=a-lede-package-region&region=top-news&WT.nav=top-news", 
+    "bias": 1.2, 
+    "title": "test", 
+    "sentences": [
+        "test", 
+        "anotherTest"
+    ], 
+    "author": "test"
+}
